@@ -1,0 +1,14 @@
+{
+  "name": "perfeng-browser-worker",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Frontend performance worker: Playwright journeys + Lighthouse (pinned)",
+  "dependencies": {
+    "@playwright/test": "1.65.1",
+    "playwright": "1.65.1",
+    "lighthouse": "13.6.0",
+    "@lhci/cli": "0.16.1",
+    "web-vitals": "6.2.3"
+  }
+}

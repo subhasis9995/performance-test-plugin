@@ -1,0 +1,2 @@
+# Baseline: proxy forwards everything untouched.
+faults: []

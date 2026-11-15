@@ -1,0 +1,25 @@
+[project]
+name = "perf-sut"
+version = "0.1.0"
+description = "System-under-test harness: native OWASP Juice Shop + fault-injecting reverse proxy"
+requires-python = ">=3.12"
+dependencies = [
+  "aiohttp>=3.10",
+  "pyyaml>=6.0",
+  "prometheus-client>=0.20",
+  "httpx>=0.27",
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-timeout>=2.3"]
+
+[tool.uv]
+package = false
+link-mode = "copy"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+timeout = 600
+markers = [
+  "live: needs Juice Shop installed (downloads ~135 MB on first run)",
+]

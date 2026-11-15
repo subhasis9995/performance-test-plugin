@@ -1,0 +1,55 @@
+# Platform default policy. Values used from here are tagged source=POLICY in plans.
+version: 1
+limits:
+  max_vus: 200
+  max_arrival_rate: 100        # local-lab default cap (req/s); raise per environment
+  max_duration_s: 1800
+  max_runs_per_hour: 60
+benchmark:
+  repeats: 5
+  characterization_rates: [25, 50, 100]
+  step_duration_s: 60
+  smoke_rate: 2
+  smoke_duration_s: 20
+  capacity_ladder: [10, 25, 50, 100, 200, 400]
+  capacity_step_duration_s: 45
+feature:
+  repeats: 5
+  load_rate: 25
+  load_duration_s: 60
+  peak_rate: 50
+  peak_duration_s: 45
+stability:
+  max_cv_p95: 0.10             # coefficient of variation of p95 across repeats
+  max_error_rate_spread: 0.02
+  min_samples_per_run: 200
+regression:
+  warn_pct: 10.0
+  fail_pct: 25.0
+  significance_alpha: 0.05
+  error_rate_warn_abs: 0.01     # absolute error-rate increase vs baseline
+  error_rate_fail_abs: 0.05
+safety:
+  abort_error_rate: 0.20
+  abort_p95_ms: 5000
+  generator_cpu_saturation_pct: 85
+  watchdog_grace_s: 30
+diagnostics:
+  max_iterations: 3
+  step_factors: [0.5, 1.0, 2.0]   # focused step load relative to the baseline workload
+  repeats: 2
+frontend:
+  repeats: 5
+  lighthouse_runs: 3
+  budgets:                     # lab budgets (POLICY, not NFR)
+    lcp_ms: 2500
+    cls: 0.1
+    tbt_ms: 200
+    inp_ms: 200
+approvals_required:            # gates that always need a human
+  - G2_plan
+  - G3_assumptions
+  - G4_high_risk_test
+  - G5_baseline_promotion
+  - G6_diagnostic_run
+  - G7_target_change

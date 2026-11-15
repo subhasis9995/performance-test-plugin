@@ -1,0 +1,15 @@
+{
+  "name": "perf-local",
+  "owner": {
+    "name": "perf plugin maintainers"
+  },
+  "plugins": [
+    {
+      "name": "perf",
+      "source": "./",
+      "description": "Automated performance engineering (benchmark + feature impact)",
+      "version": "0.1.0"
+    }
+  ],
+  "description": "Local marketplace for the perf performance-engineering plugin"
+}

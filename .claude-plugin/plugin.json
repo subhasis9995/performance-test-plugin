@@ -1,0 +1,10 @@
+{
+  "name": "perf",
+  "displayName": "Performance Engineering",
+  "version": "0.1.0",
+  "description": "Benchmark existing systems and test the performance impact of a feature (KEY-22): impact model, provenance-tagged plan, human-gated k6/Playwright/Lighthouse runs, deterministic SLO vs baseline analysis, evidence-based diagnostic loop. No Docker required.",
+  "author": { "name": "perf plugin maintainers" },
+  "license": "Apache-2.0",
+  "keywords": ["performance", "k6", "playwright", "lighthouse", "load-testing", "baseline", "web-vitals"],
+  "experimental": { "evals": "plugin-evals" }
+}

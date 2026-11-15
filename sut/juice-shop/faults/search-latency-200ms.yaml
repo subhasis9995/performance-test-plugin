@@ -1,0 +1,5 @@
+# Regression: product search gets 200 ms slower (e.g. lost index).
+faults:
+  - name: search-latency
+    match: {method: GET, path: '^/rest/products/search'}
+    latency_ms: 200

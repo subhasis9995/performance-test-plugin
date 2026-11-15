@@ -1,0 +1,1485 @@
+<!doctype html><html><head><meta charset=utf-8><title>Performance Test Report plan_20261115103720_ea67c5</title><style>body{font-family:system-ui,Segoe UI,Arial,sans-serif;max-width:1180px;margin:24px auto;padding:0 20px;color:#1b1f24;background:#fff;line-height:1.45}
+h1{border-bottom:3px solid #4f7cff;padding-bottom:6px}h2{margin-top:34px;border-bottom:1px solid #ddd;padding-bottom:4px}h3{margin-top:22px}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}th,td{border:1px solid #d7dbe0;padding:4px 8px;text-align:left;vertical-align:top}
+th{background:#f1f4f9}tr:nth-child(even) td{background:#fafbfc}code{background:#f1f3f5;padding:1px 4px;border-radius:3px;font-size:12px}
+pre{background:#f6f8fa;padding:10px;border-radius:6px;overflow:auto}svg{margin:8px 0}@media print{body{max-width:none;margin:0}h2{page-break-before:auto}}</style></head><body><h1>Performance Test Report: juice-shop / perf-qa</h1>
+<p><strong>Feature performance test: KEY-22</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Report generated</td>
+<td>2026-11-15 15:28 UTC</td>
+</tr>
+<tr>
+<td>Plan</td>
+<td><code>plan_20261115103720_ea67c5</code> (v1, executed)</td>
+</tr>
+<tr>
+<td>Application / environment</td>
+<td>juice-shop / perf-qa</td>
+</tr>
+<tr>
+<td>Feature / work item</td>
+<td>KEY-22</td>
+</tr>
+<tr>
+<td>Overall verdict</td>
+<td>❌ <strong>FAIL_REGRESSION</strong></td>
+</tr>
+<tr>
+<td>Environment label</td>
+<td>local-lab (load generator, browser and possibly the app share one machine)</td>
+</tr>
+</tbody>
+</table>
+<h2>1. Executive summary</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runs executed</td>
+<td>7 (7 completed, 0 aborted by safety stop, 0 failed/rejected)</td>
+</tr>
+<tr>
+<td>Total API requests generated</td>
+<td>250</td>
+</tr>
+<tr>
+<td>Test window</td>
+<td>2026-11-15 10:37:30 → 2026-11-15 10:39:15</td>
+</tr>
+<tr>
+<td>Targets tested</td>
+<td>GET /rest/products/search, Search</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Findings</strong></p>
+<ul>
+<li>❌ <strong>GET /rest/products/search</strong>: FAIL_REGRESSION. p95 +2055.7% vs baseline (fail &gt;= 25.0%); p99 +1583.3% vs baseline (fail &gt;= 25.0%); p50 +2502.7% vs baseline (fail &gt;= 25.0%)</li>
+<li>✅ <strong>Search</strong>: PASS. </li>
+</ul>
+<h2>2. Objectives and scope</h2>
+<p>Determine the performance impact of KEY-22 by comparing against the approved baseline workload and any approved SLOs, then explain regressions.</p>
+<p><strong>Feature:</strong> KEY-22: Rank product search results by relevance</p>
+<p><strong>Feature Impact Model</strong></p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Kind</th>
+<th>Item</th>
+<th>Confidence</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend</td>
+<td>endpoint</td>
+<td><code>GET /rest/products/search</code></td>
+<td>0.90</td>
+<td>routes/search.ts matches service-map 'product-search'</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>service</td>
+<td><code>SearchService</code></td>
+<td>0.90</td>
+<td>routes/search.ts matches service-map 'product-search'</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td>component</td>
+<td><code>SearchResultComponent</code></td>
+<td>0.90</td>
+<td>frontend/src/app/search-result/search-result.component.ts matches service-map 'search-ui'</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td>journey</td>
+<td><code>Search</code></td>
+<td>0.85</td>
+<td>frontend/src/app/search-result/search-result.component.ts matches service-map 'search-ui'; mentioned in work item</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>dependency</td>
+<td><code>sqlite:Products</code></td>
+<td>0.70</td>
+<td>routes/search.ts matches service-map 'product-search'</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Changed files:</strong> <code>frontend/src/app/search-result/search-result.component.ts</code>, <code>routes/search.ts</code></p>
+<p><strong>Measurements collected:</strong> http_req_duration p50/p90/p95/p99; throughput (req/s); business transaction rate; error rate; dropped iterations; bytes sent/received; load-generator CPU; server CPU/memory (when telemetry configured); LCP; CLS; INP (when interactions exist); TBT (lab); TTFB; FCP; Speed Index; long tasks; JS execution time; resource count/size; network waterfall (HAR); failed requests; console errors; journey duration</p>
+<h2>3. Test inputs</h2>
+<h3>3.1 Target and access</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base URL</td>
+<td>http://127.0.0.1:3100</td>
+</tr>
+<tr>
+<td>Frontend URL</td>
+<td>http://127.0.0.1:3100</td>
+</tr>
+<tr>
+<td>Allowed hosts (allowlist)</td>
+<td>127.0.0.1</td>
+</tr>
+<tr>
+<td>Ownership / permission to load test</td>
+<td>✅ confirmed</td>
+</tr>
+<tr>
+<td>Production target</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>login_flow (login <code>/rest/user/login</code>)</td>
+</tr>
+<tr>
+<td>Secret variables (names only)</td>
+<td><code>JUICE_SHOP_USER_EMAIL</code> (set), <code>JUICE_SHOP_USER_PASSWORD</code> (set)</td>
+</tr>
+<tr>
+<td>Telemetry sources</td>
+<td><code>proxy</code>: scrape:http://127.0.0.1:3100/__metrics, <code>app</code>: scrape:http://127.0.0.1:3000/metrics, <code>app_process</code>: process:port=3000</td>
+</tr>
+</tbody>
+</table>
+<h3>3.2 Specifications, data and requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API specifications</td>
+<td>none provided (endpoints discovered by probe/crawl)</td>
+</tr>
+<tr>
+<td>Test data</td>
+<td><code>test-data/catalog.json</code>: 8 rows; columns: q, id</td>
+</tr>
+<tr>
+<td>NFR/SLO documents</td>
+<td>none exist (declared by user)</td>
+</tr>
+<tr>
+<td>Approved NFRs imported</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Journeys</td>
+<td>Search (Home → Search 'apple' → Results), ProductDetails (Home → Open product)</td>
+</tr>
+<tr>
+<td>Targets requested</td>
+<td><code>GET /rest/products/search</code>, <code>GET /api/Products/{id}</code></td>
+</tr>
+<tr>
+<td>Request overrides</td>
+<td><code>GET /rest/products/search</code> → <code>/rest/products/search?q=${data.q}</code>, <code>GET /api/Products/{id}</code> → <code>/api/Products/${data.id}</code></td>
+</tr>
+<tr>
+<td>Repository / service map</td>
+<td>C:\Users\subha\AppData\Local\Temp\jsproj\app-repo / .perf/service-map.yaml</td>
+</tr>
+</tbody>
+</table>
+<h3>3.3 Workload settings (effective policy)</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repeats per workload</td>
+<td>3 benchmark / 3 feature / 3 frontend</td>
+</tr>
+<tr>
+<td>Characterization rates</td>
+<td>[10] req/s, 8 s each</td>
+</tr>
+<tr>
+<td>Hard caps</td>
+<td>100 req/s, 200 VUs, 1800 s</td>
+</tr>
+<tr>
+<td>Safety aborts</td>
+<td>error rate ≥ 20% or p95 ≥ 5000 ms; generator CPU saturation 85%</td>
+</tr>
+<tr>
+<td>Stability rule</td>
+<td>p95 CV ≤ 0.3, ≥ 50 samples/run</td>
+</tr>
+<tr>
+<td>Regression thresholds</td>
+<td>warn ≥ +10.0%, fail ≥ +25.0% (rank test α = 0.05)</td>
+</tr>
+<tr>
+<td>Frontend lab budgets (POLICY)</td>
+<td>lcp_ms 2500, cls 0.1, tbt_ms 200, inp_ms 200</td>
+</tr>
+</tbody>
+</table>
+<h3>3.4 Where the plan's numbers come from</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Count</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POLICY</td>
+<td>7</td>
+<td>platform default</td>
+</tr>
+<tr>
+<td>BASELINE</td>
+<td>2</td>
+<td>approved baseline workload</td>
+</tr>
+</tbody>
+</table>
+<h3>3.5 Approvals (human gates)</h3>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Approver</th>
+<th>When</th>
+<th>Content hash</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G2_plan</td>
+<td>eval-human</td>
+<td>2026-11-15 10:37:25</td>
+<td><code>706687640a</code></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2>4. Test environment and tooling</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Executor</td>
+<td>local-process</td>
+</tr>
+<tr>
+<td>Load generator OS</td>
+<td>Windows-11-10.0.26300-SP0</td>
+</tr>
+<tr>
+<td>CPU cores / memory</td>
+<td>16 / 33.7 GB</td>
+</tr>
+<tr>
+<td>k6</td>
+<td>k6.exe v2.3.0 (commit/e088784614, go1.26.8, windows/amd64)</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>v24.14.0</td>
+</tr>
+<tr>
+<td>Playwright</td>
+<td>1.65.1</td>
+</tr>
+<tr>
+<td>Lighthouse</td>
+<td>13.6.0</td>
+</tr>
+<tr>
+<td>Chromium</td>
+<td>159.0.8154.6</td>
+</tr>
+<tr>
+<td>web-vitals</td>
+<td>6.2.3</td>
+</tr>
+<tr>
+<td>Load generator CPU (p95 of runs, whole machine)</td>
+<td>0.1 %</td>
+</tr>
+<tr>
+<td>Load generator CPU max</td>
+<td>0.5 %</td>
+</tr>
+<tr>
+<td>Load generator memory max</td>
+<td>36 MB</td>
+</tr>
+</tbody>
+</table>
+<h2>5. Test plan and execution</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Type</th>
+<th>Workload</th>
+<th>Repeats</th>
+<th>Completed/started</th>
+<th>Wall time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>smoke:GET /rest/products/search</td>
+<td>smoke</td>
+<td>2 req/s × 3s</td>
+<td>1</td>
+<td>1/1</td>
+<td>8 s</td>
+</tr>
+<tr>
+<td>load:GET /rest/products/search@10</td>
+<td>load</td>
+<td>10 req/s × 8s</td>
+<td>3</td>
+<td>3/3</td>
+<td>36 s</td>
+</tr>
+<tr>
+<td>frontend:Search</td>
+<td>frontend</td>
+<td>browser journey</td>
+<td>3</td>
+<td>3/3</td>
+<td>61 s</td>
+</tr>
+</tbody>
+</table>
+<h3>Run log</h3>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Type</th>
+<th>Test</th>
+<th>#</th>
+<th>Status</th>
+<th>Started</th>
+<th>Duration</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>20261115103730_786ae2</code></td>
+<td>smoke</td>
+<td>smoke:GET /rest/products/search</td>
+<td>1</td>
+<td>✅ completed</td>
+<td>2026-11-15 10:37:30</td>
+<td>7.7 s</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>20261115103738_34de75</code></td>
+<td>load</td>
+<td>load:GET /rest/products/search@10</td>
+<td>1</td>
+<td>✅ completed</td>
+<td>2026-11-15 10:37:38</td>
+<td>12.0 s</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>20261115103750_d0ec18</code></td>
+<td>load</td>
+<td>load:GET /rest/products/search@10</td>
+<td>2</td>
+<td>✅ completed</td>
+<td>2026-11-15 10:37:50</td>
+<td>12.0 s</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>20261115103802_09c1db</code></td>
+<td>load</td>
+<td>load:GET /rest/products/search@10</td>
+<td>3</td>
+<td>✅ completed</td>
+<td>2026-11-15 10:38:02</td>
+<td>12.0 s</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>20261115103814_3ba3ce</code></td>
+<td>frontend</td>
+<td>frontend:Search</td>
+<td>1</td>
+<td>✅ completed</td>
+<td>2026-11-15 10:38:14</td>
+<td>20.3 s</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>20261115103834_ad6b97</code></td>
+<td>frontend</td>
+<td>frontend:Search</td>
+<td>2</td>
+<td>✅ completed</td>
+<td>2026-11-15 10:38:34</td>
+<td>20.4 s</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>20261115103854_8ee00d</code></td>
+<td>frontend</td>
+<td>frontend:Search</td>
+<td>3</td>
+<td>✅ completed</td>
+<td>2026-11-15 10:38:54</td>
+<td>20.2 s</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Results: API</h2>
+<h3>6.1 Summary per workload (median across repeats)</h3>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Workload</th>
+<th>Kind</th>
+<th>Runs</th>
+<th>Requests/run</th>
+<th>p50 ms</th>
+<th>p90 ms</th>
+<th>p95 ms</th>
+<th>p99 ms</th>
+<th>max ms</th>
+<th>Error rate</th>
+<th>Req/s</th>
+<th>Dropped iter.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td>smoke</td>
+<td>1</td>
+<td>7</td>
+<td>211.6</td>
+<td>213.9</td>
+<td>214.0</td>
+<td>214.1</td>
+<td>214.1</td>
+<td>0.00%</td>
+<td>2.3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td>feature</td>
+<td>3</td>
+<td>81</td>
+<td>210.0</td>
+<td>220.3</td>
+<td>222.7</td>
+<td>223.8</td>
+<td>224.3</td>
+<td>0.00%</td>
+<td>10.1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 Throughput, data and concurrency</h3>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Workload</th>
+<th>Planned req/s</th>
+<th>Achieved req/s</th>
+<th>Achieved %</th>
+<th>Max VUs</th>
+<th>Data sent/run</th>
+<th>Data received/run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td>2.0</td>
+<td>2.3</td>
+<td>117 %</td>
+<td>2</td>
+<td>6 KB</td>
+<td>11 KB</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td>10.0</td>
+<td>10.1</td>
+<td>101 %</td>
+<td>10</td>
+<td>71 KB</td>
+<td>104 KB</td>
+</tr>
+</tbody>
+</table>
+<h3>6.3 Per-repeat detail</h3>
+<p><strong>GET /rest/products/search</strong> (smoke@2rps/3s, smoke)</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Status</th>
+<th>Requests</th>
+<th>p50</th>
+<th>p95</th>
+<th>p99</th>
+<th>Errors</th>
+<th>Req/s</th>
+<th>Dropped</th>
+<th>Gen CPU p95</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>completed</td>
+<td>7</td>
+<td>211.6</td>
+<td>214.0</td>
+<td>214.1</td>
+<td>0.00%</td>
+<td>2.3</td>
+<td>0</td>
+<td>0.1%</td>
+</tr>
+</tbody>
+</table>
+<p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 200" width="100%" style="max-width:620px;background:#fff;border:1px solid #ddd;border-radius:6px"><text x="8" y="16" font-size="12" font-weight="600">p95 latency per repeat: GET /rest/products/search</text>
+<line x1="52" x2="612" y1="172.0" y2="172.0" stroke="#eee"/><text x="48" y="176.0" font-size="10" text-anchor="end" fill="#666">0</text>
+<line x1="52" x2="612" y1="135.5" y2="135.5" stroke="#eee"/><text x="48" y="139.5" font-size="10" text-anchor="end" fill="#666">62</text>
+<line x1="52" x2="612" y1="99.0" y2="99.0" stroke="#eee"/><text x="48" y="103.0" font-size="10" text-anchor="end" fill="#666">123</text>
+<line x1="52" x2="612" y1="62.5" y2="62.5" stroke="#eee"/><text x="48" y="66.5" font-size="10" text-anchor="end" fill="#666">185</text>
+<line x1="52" x2="612" y1="26.0" y2="26.0" stroke="#eee"/><text x="48" y="30.0" font-size="10" text-anchor="end" fill="#666">246</text>
+<rect x="135.4" y="45.0" width="389.2" height="127.0" fill="#4f7cff"/><text x="330.0" y="42.0" font-size="10" text-anchor="middle">214.0</text><text x="330.0" y="188" font-size="10" text-anchor="middle" fill="#444">#1</text>
+<line x1="52" x2="612" y1="165.9" y2="165.9" stroke="#2e7d32" stroke-width="2" stroke-dasharray="6 3"/><text x="610" y="161.9" font-size="10" text-anchor="end" fill="#2e7d32">baseline v1 p95 10.3ms</text>
+</svg></p>
+<p><strong>GET /rest/products/search</strong> (load@10rps/8s, feature)</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Status</th>
+<th>Requests</th>
+<th>p50</th>
+<th>p95</th>
+<th>p99</th>
+<th>Errors</th>
+<th>Req/s</th>
+<th>Dropped</th>
+<th>Gen CPU p95</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>completed</td>
+<td>81</td>
+<td>210.0</td>
+<td>223.5</td>
+<td>224.8</td>
+<td>0.00%</td>
+<td>10.1</td>
+<td>0</td>
+<td>0.2%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>completed</td>
+<td>81</td>
+<td>210.6</td>
+<td>222.2</td>
+<td>223.6</td>
+<td>0.00%</td>
+<td>10.1</td>
+<td>0</td>
+<td>0.2%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>completed</td>
+<td>81</td>
+<td>208.9</td>
+<td>222.7</td>
+<td>223.8</td>
+<td>0.00%</td>
+<td>10.1</td>
+<td>0</td>
+<td>0.1%</td>
+</tr>
+</tbody>
+</table>
+<p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 200" width="100%" style="max-width:620px;background:#fff;border:1px solid #ddd;border-radius:6px"><text x="8" y="16" font-size="12" font-weight="600">p95 latency per repeat: GET /rest/products/search</text>
+<line x1="52" x2="612" y1="172.0" y2="172.0" stroke="#eee"/><text x="48" y="176.0" font-size="10" text-anchor="end" fill="#666">0</text>
+<line x1="52" x2="612" y1="135.5" y2="135.5" stroke="#eee"/><text x="48" y="139.5" font-size="10" text-anchor="end" fill="#666">64</text>
+<line x1="52" x2="612" y1="99.0" y2="99.0" stroke="#eee"/><text x="48" y="103.0" font-size="10" text-anchor="end" fill="#666">128</text>
+<line x1="52" x2="612" y1="62.5" y2="62.5" stroke="#eee"/><text x="48" y="66.5" font-size="10" text-anchor="end" fill="#666">193</text>
+<line x1="52" x2="612" y1="26.0" y2="26.0" stroke="#eee"/><text x="48" y="30.0" font-size="10" text-anchor="end" fill="#666">257</text>
+<rect x="79.8" y="45.0" width="129.7" height="127.0" fill="#4f7cff"/><text x="144.7" y="42.0" font-size="10" text-anchor="middle">223.5</text><text x="144.7" y="188" font-size="10" text-anchor="middle" fill="#444">#1</text>
+<rect x="265.1" y="45.8" width="129.7" height="126.2" fill="#4f7cff"/><text x="330.0" y="42.8" font-size="10" text-anchor="middle">222.2</text><text x="330.0" y="188" font-size="10" text-anchor="middle" fill="#444">#2</text>
+<rect x="450.5" y="45.5" width="129.7" height="126.5" fill="#4f7cff"/><text x="515.3" y="42.5" font-size="10" text-anchor="middle">222.7</text><text x="515.3" y="188" font-size="10" text-anchor="middle" fill="#444">#3</text>
+<line x1="52" x2="612" y1="166.1" y2="166.1" stroke="#2e7d32" stroke-width="2" stroke-dasharray="6 3"/><text x="610" y="162.1" font-size="10" text-anchor="end" fill="#2e7d32">baseline v1 p95 10.3ms</text>
+</svg></p>
+<h2>8. Results: frontend journeys (real browser, lab)</h2>
+<p>LCP loading · CLS visual stability · INP responsiveness (n/a without a qualifying interaction) · TBT lab proxy for blocking · FID is obsolete and not used. Lab results on one machine: use them for before/after comparison.</p>
+<h3>Search (feature, 3 runs)</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Median</th>
+<th>Min</th>
+<th>Max</th>
+<th>Lab budget (POLICY)</th>
+<th>Within</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LCP ms</td>
+<td>528</td>
+<td>524</td>
+<td>544</td>
+<td>2,500</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>CLS</td>
+<td>0.058</td>
+<td>0.058</td>
+<td>0.058</td>
+<td>0.1</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>INP ms</td>
+<td>40</td>
+<td>16</td>
+<td>40</td>
+<td>200</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>TBT ms</td>
+<td>90</td>
+<td>86</td>
+<td>96</td>
+<td>200</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>TTFB ms</td>
+<td>6.5</td>
+<td>6</td>
+<td>6.6</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>FCP ms</td>
+<td>264</td>
+<td>252</td>
+<td>272</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Speed Index</td>
+<td>2,342.3</td>
+<td>2,269.7</td>
+<td>2,500.7</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Journey ms</td>
+<td>5,047</td>
+<td>5,023</td>
+<td>5,049</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Long tasks</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>JS exec ms</td>
+<td>139.0</td>
+<td>135.0</td>
+<td>143.7</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Resources</td>
+<td>47</td>
+<td>47</td>
+<td>47</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Transfer KB</td>
+<td>855.1</td>
+<td>855.1</td>
+<td>855.1</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Failed req.</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Console err.</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td></td>
+</tr>
+<tr>
+<td>Lighthouse</td>
+<td>0.440</td>
+<td>0.4</td>
+<td>0.5</td>
+<td>-</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Slowest resources (first run):</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Type</th>
+<th>Duration ms</th>
+<th>Transfer KB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>http://127.0.0.1:3100/api/Challenges/?name=Score%20Board</code></td>
+<td>fetch</td>
+<td>411</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>http://127.0.0.1:3100/api/Challenges/?name=Score%20Board</code></td>
+<td>fetch</td>
+<td>327</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>http://127.0.0.1:3100/rest/products/search?q=</code></td>
+<td>fetch</td>
+<td>299</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>http://127.0.0.1:3100/api/Quantitys/</code></td>
+<td>fetch</td>
+<td>297</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>http://127.0.0.1:3100/rest/products/search?q=</code></td>
+<td>fetch</td>
+<td>219</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 200" width="100%" style="max-width:620px;background:#fff;border:1px solid #ddd;border-radius:6px"><text x="8" y="16" font-size="12" font-weight="600">LCP per repeat: Search</text>
+<line x1="52" x2="612" y1="172.0" y2="172.0" stroke="#eee"/><text x="48" y="176.0" font-size="10" text-anchor="end" fill="#666">0</text>
+<line x1="52" x2="612" y1="135.5" y2="135.5" stroke="#eee"/><text x="48" y="139.5" font-size="10" text-anchor="end" fill="#666">719</text>
+<line x1="52" x2="612" y1="99.0" y2="99.0" stroke="#eee"/><text x="48" y="103.0" font-size="10" text-anchor="end" fill="#666">1,438</text>
+<line x1="52" x2="612" y1="62.5" y2="62.5" stroke="#eee"/><text x="48" y="66.5" font-size="10" text-anchor="end" fill="#666">2,156</text>
+<line x1="52" x2="612" y1="26.0" y2="26.0" stroke="#eee"/><text x="48" y="30.0" font-size="10" text-anchor="end" fill="#666">2,875</text>
+<rect x="79.8" y="145.2" width="129.7" height="26.8" fill="#4f7cff"/><text x="144.7" y="142.2" font-size="10" text-anchor="middle">528.0</text><text x="144.7" y="188" font-size="10" text-anchor="middle" fill="#444">#1</text>
+<rect x="265.1" y="145.4" width="129.7" height="26.6" fill="#4f7cff"/><text x="330.0" y="142.4" font-size="10" text-anchor="middle">524.0</text><text x="330.0" y="188" font-size="10" text-anchor="middle" fill="#444">#2</text>
+<rect x="450.5" y="144.4" width="129.7" height="27.6" fill="#4f7cff"/><text x="515.3" y="141.4" font-size="10" text-anchor="middle">544.0</text><text x="515.3" y="188" font-size="10" text-anchor="middle" fill="#444">#3</text>
+<line x1="52" x2="612" y1="45.0" y2="45.0" stroke="#c62828" stroke-width="2" stroke-dasharray="6 3"/><text x="610" y="41.0" font-size="10" text-anchor="end" fill="#c62828">budget 2,500.0ms</text>
+</svg></p>
+<h2>9. Success and failure analysis</h2>
+<h3>9.1 Requests by outcome</h3>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Workload</th>
+<th>Requests</th>
+<th>Successful</th>
+<th>Failed</th>
+<th>Success rate</th>
+<th>HTTP status counts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td>7</td>
+<td>7</td>
+<td>0</td>
+<td>100.00%</td>
+<td>200: 7</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td>243</td>
+<td>243</td>
+<td>0</td>
+<td>100.00%</td>
+<td>200: 243</td>
+</tr>
+</tbody>
+</table>
+<h3>9.2 Run outcomes</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>completed</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<h3>9.3 Verdict per target</h3>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Workload</th>
+<th>Verdict</th>
+<th>Reasons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td>❌ FAIL_REGRESSION</td>
+<td>p95 +2055.7% vs baseline (fail &gt;= 25.0%); p99 +1583.3% vs baseline (fail &gt;= 25.0%); p50 +2502.7% vs baseline (fail &gt;= 25.0%)</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td>✅ PASS</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>10. SLO, baseline and trend analysis</h2>
+<p>SLO (approved requirement), baseline (approved reference) and trend (history) are evaluated <strong>separately</strong>.</p>
+<h3>GET /rest/products/search: ❌ FAIL_REGRESSION</h3>
+<p>Baseline: <code>bl_20261115103238_5491d8</code> v1, created 2026-11-15 10:32:38, workload <code>load@10rps/8s</code>.</p>
+<p><strong>SLO:</strong> none approved for this target, so no SLO verdict is possible.</p>
+<p><strong>Baseline comparison</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Baseline</th>
+<th>Current</th>
+<th>Delta</th>
+<th>p-value (rank)</th>
+<th>95% CI of delta</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p95</td>
+<td>10.3</td>
+<td>222.7</td>
+<td>2,055.7%</td>
+<td>0.050</td>
+<td>1905% … 2265%</td>
+<td>❌ fail</td>
+</tr>
+<tr>
+<td>p99</td>
+<td>13.3</td>
+<td>223.8</td>
+<td>1,583.3%</td>
+<td>0.050</td>
+<td>1456% … 1646%</td>
+<td>❌ fail</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>8.1</td>
+<td>210.0</td>
+<td>2,502.7%</td>
+<td>0.050</td>
+<td>2400% … 2590%</td>
+<td>❌ fail</td>
+</tr>
+<tr>
+<td>error_rate</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0%</td>
+<td>-</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Trend (informational):</strong> p95 drift 1,995.8% over 6 series; recent medians 11.3, 10.6, 10.3, 223.7, 9.9, 222.7. The baseline is never moved by trend.</p>
+<p><strong>Measurement validity:</strong> stable = True, CV p95 = 0.003</p>
+<h3>Search: ✅ PASS</h3>
+<p>Baseline: <code>bl_20261115103242_a265b5</code> v1, created 2026-11-15 10:32:42, workload <code>frontend@Search</code>.</p>
+<p><strong>SLO:</strong> none approved for this target, so no SLO verdict is possible.</p>
+<p><strong>Baseline comparison</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Baseline</th>
+<th>Current</th>
+<th>Delta</th>
+<th>p-value (rank)</th>
+<th>95% CI of delta</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lcp_ms</td>
+<td>544.0</td>
+<td>528.0</td>
+<td>-2.9%</td>
+<td>0.939</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+<tr>
+<td>tbt_ms</td>
+<td>90.0</td>
+<td>90.0</td>
+<td>0.0%</td>
+<td>0.588</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+<tr>
+<td>journey_ms</td>
+<td>4,865.0</td>
+<td>5,047.0</td>
+<td>3.7%</td>
+<td>0.050</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+<tr>
+<td>inp_ms</td>
+<td>24.0</td>
+<td>40.0</td>
+<td>66.7%</td>
+<td>0.589</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+<tr>
+<td>ttfb_ms</td>
+<td>6.3</td>
+<td>6.5</td>
+<td>3.2%</td>
+<td>0.588</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+<tr>
+<td>fcp_ms</td>
+<td>268.0</td>
+<td>264.0</td>
+<td>-1.5%</td>
+<td>0.750</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+<tr>
+<td>cls</td>
+<td>0.058</td>
+<td>0.058</td>
+<td>0.0%</td>
+<td>1.000</td>
+<td>-</td>
+<td>✅ none</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lab budgets (POLICY, not NFRs)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Budget</th>
+<th>Observed</th>
+<th>Within</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lcp_ms</td>
+<td>2500</td>
+<td>528.0</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>cls</td>
+<td>0.1</td>
+<td>0.058</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>tbt_ms</td>
+<td>200</td>
+<td>90.0</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>inp_ms</td>
+<td>200</td>
+<td>40.0</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Measurement validity:</strong> stable = True</p>
+<h2>11. Server-side telemetry</h2>
+<table>
+<thead>
+<tr>
+<th>Series</th>
+<th>Workload</th>
+<th>Metric (median across repeats)</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="GET",route="/rest/products/search"}:mean_ms</code></td>
+<td>211.20</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>proxy: sut_proxy_injected_delay_seconds{fault="search-latency",method="GET",route="/rest/products</code></td>
+<td>200.00</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="POST",route="/rest/user/login"}:mean_ms</code></td>
+<td>13.77</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>proxy: sut_proxy_upstream_latency_seconds{method="POST",route="/rest/user/login"}:mean_ms</code></td>
+<td>13.56</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>proxy: sut_proxy_upstream_latency_seconds{method="GET",route="/rest/products/search"}:mean_ms</code></td>
+<td>8.45</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>app_process: cpu_pct_p95</code></td>
+<td>0.29</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>app_process: rss_mb_max</code></td>
+<td>283.91</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>smoke@2rps/3s</td>
+<td><code>__host__: cpu_pct_p95</code></td>
+<td>8.30</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="GET",route="/rest/products/search"}:mean_ms</code></td>
+<td>212.35</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>proxy: sut_proxy_injected_delay_seconds{fault="search-latency",method="GET",route="/rest/products</code></td>
+<td>200.00</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="POST",route="/rest/user/login"}:mean_ms</code></td>
+<td>12.05</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>proxy: sut_proxy_upstream_latency_seconds{method="POST",route="/rest/user/login"}:mean_ms</code></td>
+<td>11.85</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>proxy: sut_proxy_upstream_latency_seconds{method="GET",route="/rest/products/search"}:mean_ms</code></td>
+<td>7.61</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>app_process: cpu_pct_p95</code></td>
+<td>1.93</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>app_process: rss_mb_max</code></td>
+<td>275.37</td>
+</tr>
+<tr>
+<td>GET /rest/products/search</td>
+<td>load@10rps/8s</td>
+<td><code>__host__: cpu_pct_p95</code></td>
+<td>8.90</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="GET",route="/rest/products/search"}:mean_ms</code></td>
+<td>258.64</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_injected_delay_seconds{fault="search-latency",method="GET",route="/rest/products</code></td>
+<td>200.00</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="GET",route="/api/Challenges"}:mean_ms</code></td>
+<td>192.82</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_upstream_latency_seconds{method="GET",route="/api/Challenges"}:mean_ms</code></td>
+<td>192.63</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="GET",route="/api/Quantitys"}:mean_ms</code></td>
+<td>191.55</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_upstream_latency_seconds{method="GET",route="/api/Quantitys"}:mean_ms</code></td>
+<td>191.33</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_request_duration_seconds{method="GET",route="/rest/languages"}:mean_ms</code></td>
+<td>144.96</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>frontend@Search</td>
+<td><code>proxy: sut_proxy_upstream_latency_seconds{method="GET",route="/rest/languages"}:mean_ms</code></td>
+<td>144.65</td>
+</tr>
+</tbody>
+</table>
+<h2>12. Diagnosis (iteration 2)</h2>
+<ul>
+<li>✅ <strong>[supported, high]</strong> Latency on GET /rest/products/search is load-independent: a fixed per-request delay, not queueing or saturation</li>
+<li>evidence (diagnostic-run): p95 223.2 ms @ 5 req/s -&gt; 222.7 ms @ 20 req/s</li>
+<li>✅ <strong>[supported, high]</strong> Added latency on GET /rest/products/search is introduced in front of the application (gateway/proxy/network), not by app processing</li>
+<li>evidence (telemetry): proxy:sut_proxy_injected_delay_seconds{fault="search-latency",method="GET",route="/rest/products/search"}:mean_ms median 200.0 ms per request</li>
+<li>evidence (analysis): client p95 increased by 212.4 ms</li>
+<li>next test: Step load at 0.5x/1x/2x: a constant added delay is load-independent (not queueing)</li>
+<li>➖ <strong>[refuted, medium]</strong> Application/server-side processing on /rest/products/search is the cause (server-side time is unchanged)</li>
+<li>evidence (telemetry): proxy:sut_proxy_upstream_latency_seconds{method="GET",route="/rest/products/search"}:mean_ms: baseline 7.7 ms vs current 7.6 ms</li>
+<li>➖ <strong>[refuted, medium]</strong> Application CPU saturation is the cause</li>
+<li>evidence (telemetry): app_process:cpu_pct_p95: baseline 1.6% vs current 1.9%</li>
+</ul>
+<h2>13. Observations and recommendations</h2>
+<h3>Observations</h3>
+<ul>
+<li>No approved NFRs/SLOs exist: no requirement-based pass/fail is possible. Results are baseline-relative only.</li>
+<li>GET /rest/products/search (smoke@2rps/3s): only 7 samples in the smallest run; statistics are weak below 50.</li>
+<li>GET /rest/products/search: material regression vs approved baseline (p95 +2055.7% vs baseline (fail &gt;= 25.0%); p99 +1583.3% vs baseline (fail &gt;= 25.0%)).</li>
+<li>Results come from a local-lab environment (load generator, browser and app on one machine): suitable for before/after comparison, not for production capacity claims.</li>
+</ul>
+<h3>Recommendations</h3>
+<ol>
+<li>Agree and import NFRs (<code>perf import-nfrs</code>) so SLO verdicts become possible.</li>
+<li>Do not release KEY-22 for GET /rest/products/search before the cause is understood (<code>/perf:diagnose plan_20261115103720_ea67c5</code>).</li>
+<li>Investigate: Latency on GET /rest/products/search is load-independent: a fixed per-request delay, not queueing or saturation.</li>
+<li>Investigate: Added latency on GET /rest/products/search is introduced in front of the application (gateway/proxy/network), not by app processing.</li>
+</ol>
+<h2>14. Assumptions, limitations and caveats</h2>
+<ul>
+<li>ASSUMPTION values in the plan: none (all values come from NFR, BASELINE or POLICY).</li>
+<li>Statistical power is limited with few repeats; the report states when a delta rests on a bootstrap CI instead of a rank test.</li>
+<li>Percentiles are recomputed from raw k6 samples; frontend metrics are lab measurements (single machine, desktop profile).</li>
+<li>Load is generated only against allowlisted hosts under the caps listed in 3.3; Kubernetes/cloud execution is not part of this run.</li>
+<li>plan note: No approved NFRs/SLOs found: verdicts will be baseline-only; no SLO thresholds were invented.</li>
+</ul>
+<h2>Appendix</h2>
+<h3>A. Evidence and artifacts</h3>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Type</th>
+<th>Spec hash</th>
+<th>Artifact folder (script.js, spec.json, raw.ndjson, trace.zip, network.har, lighthouse-*.json)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>20261115103730_786ae2</code></td>
+<td>smoke</td>
+<td><code>0a7bfb9b0a</code></td>
+<td><code>.perf\artifacts\run_20261115103730_786ae2</code></td>
+</tr>
+<tr>
+<td><code>20261115103738_34de75</code></td>
+<td>load</td>
+<td><code>30236b5a88</code></td>
+<td><code>.perf\artifacts\run_20261115103738_34de75</code></td>
+</tr>
+<tr>
+<td><code>20261115103750_d0ec18</code></td>
+<td>load</td>
+<td><code>30236b5a88</code></td>
+<td><code>.perf\artifacts\run_20261115103750_d0ec18</code></td>
+</tr>
+<tr>
+<td><code>20261115103802_09c1db</code></td>
+<td>load</td>
+<td><code>30236b5a88</code></td>
+<td><code>.perf\artifacts\run_20261115103802_09c1db</code></td>
+</tr>
+<tr>
+<td><code>20261115103814_3ba3ce</code></td>
+<td>frontend</td>
+<td><code>814f66836c</code></td>
+<td><code>.perf\artifacts\run_20261115103814_3ba3ce</code></td>
+</tr>
+<tr>
+<td><code>20261115103834_ad6b97</code></td>
+<td>frontend</td>
+<td><code>814f66836c</code></td>
+<td><code>.perf\artifacts\run_20261115103834_ad6b97</code></td>
+</tr>
+<tr>
+<td><code>20261115103854_8ee00d</code></td>
+<td>frontend</td>
+<td><code>814f66836c</code></td>
+<td><code>.perf\artifacts\run_20261115103854_8ee00d</code></td>
+</tr>
+</tbody>
+</table>
+<h3>B. Reproduce</h3>
+<pre><code class="language-bash">uv run perf status plan_20261115103720_ea67c5
+uv run perf export plan_20261115103720_ea67c5 --out ./perf-export     # k6 scripts + data + run scripts for manual execution
+uv run perf run plan_20261115103720_ea67c5                            # re-run (plan must be approved)
+</code></pre>
+<h3>C. Audit trail (this plan)</h3>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Actor</th>
+<th>Action</th>
+<th>Subject</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-11-15 10:37:20</td>
+<td>engine</td>
+<td>plan:create</td>
+<td><code>plan_20261115103720_ea67c5</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:37:25</td>
+<td>eval-human</td>
+<td>approve:G2_plan</td>
+<td><code>plan_20261115103720_ea67c5</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:37:30</td>
+<td>engine</td>
+<td>run:start</td>
+<td><code>run_20261115103730_786ae2</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:37:38</td>
+<td>engine</td>
+<td>run:completed</td>
+<td><code>run_20261115103730_786ae2</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:37:38</td>
+<td>engine</td>
+<td>run:start</td>
+<td><code>run_20261115103738_34de75</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:37:50</td>
+<td>engine</td>
+<td>run:completed</td>
+<td><code>run_20261115103738_34de75</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:37:50</td>
+<td>engine</td>
+<td>run:start</td>
+<td><code>run_20261115103750_d0ec18</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:02</td>
+<td>engine</td>
+<td>run:completed</td>
+<td><code>run_20261115103750_d0ec18</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:02</td>
+<td>engine</td>
+<td>run:start</td>
+<td><code>run_20261115103802_09c1db</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:14</td>
+<td>engine</td>
+<td>run:completed</td>
+<td><code>run_20261115103802_09c1db</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:14</td>
+<td>engine</td>
+<td>run:start</td>
+<td><code>run_20261115103814_3ba3ce</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:34</td>
+<td>engine</td>
+<td>run:completed</td>
+<td><code>run_20261115103814_3ba3ce</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:34</td>
+<td>engine</td>
+<td>run:start</td>
+<td><code>run_20261115103834_ad6b97</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:54</td>
+<td>engine</td>
+<td>run:completed</td>
+<td><code>run_20261115103834_ad6b97</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:38:55</td>
+<td>engine</td>
+<td>run:start</td>
+<td><code>run_20261115103854_8ee00d</code></td>
+</tr>
+<tr>
+<td>2026-11-15 10:39:15</td>
+<td>engine</td>
+<td>run:completed</td>
+<td><code>run_20261115103854_8ee00d</code></td>
+</tr>
+</tbody>
+</table></body></html>

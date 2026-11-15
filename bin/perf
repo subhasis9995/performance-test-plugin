@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# perf CLI wrapper (on the Bash tool PATH while the plugin is enabled).
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+if [ -n "$CLAUDE_PLUGIN_DATA" ]; then export UV_PROJECT_ENVIRONMENT="$CLAUDE_PLUGIN_DATA/venv"; fi
+exec uv run --quiet --frozen --project "$ROOT" perf "$@"

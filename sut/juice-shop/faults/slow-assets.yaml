@@ -1,0 +1,7 @@
+# Front-end regression: static assets served at 100 KB/s plus 50 ms each (slow CDN).
+# Hits Lighthouse/Playwright metrics (LCP, FCP, TTI); API timings stay flat.
+faults:
+  - name: slow-assets
+    match: {method: GET, path: '^/(?!rest/|api/|socket\.io/).*\.(js|mjs|css|png|jpe?g|gif|svg|ico|webp|woff2?|ttf)$'}
+    latency_ms: 50
+    bandwidth_kbps: 100

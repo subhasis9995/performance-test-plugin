@@ -1,0 +1,6 @@
+# Instability: API latency 20 ms + 0..300 ms uniform jitter; p50 moves a little, p95/p99 move a lot.
+faults:
+  - name: api-jitter
+    match: {method: '*', path: '^/(api|rest)/'}
+    latency_ms: 20
+    jitter_ms: 300

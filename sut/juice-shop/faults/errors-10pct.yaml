@@ -1,0 +1,6 @@
+# Regression: 10% of API calls fail with 503 (flaky dependency).
+faults:
+  - name: api-errors
+    match: {method: '*', path: '^/(api|rest)/'}
+    error_rate: 0.10
+    error_status: 503

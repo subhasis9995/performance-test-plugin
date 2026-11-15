@@ -1,0 +1,5 @@
+.cache/
+.venv/
+fixtures/.env.eval
+.pytest_cache/
+__pycache__/
